@@ -19,6 +19,20 @@
 |稳压|LM2596|DC-DC|
 |电池|9.6V 8000MA|大田宫端头|
 |电机|TT Motor||
+|手柄|ps2||
+
+## 接收器端口
+|名称|端口|芯片|
+| ------- | ------- | ------- |
+|Data|①|12|
+|Command|②|11|
+|Ground|④|GND|
+|Power|⑤|3v3|
+|Attention|⑥|10|
+|Clock|⑦|13|
+
+<img src="./acceptor.png">
+
 
 ## 实物展示
 To view the video, you can view the demo [here]()
