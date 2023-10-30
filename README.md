@@ -7,14 +7,14 @@
 
 > ps2手柄遥控pwm调速智能车。
 ## 轮型:
-- [x] [普通轮子]()
-- [ ] [麦克纳姆轮]()
+- [x] [普通轮子](https://en.wikipedia.org/wiki/Wheel)
+- [ ] [麦克纳姆轮](https://en.wikipedia.org/wiki/Mecanum_wheel)
 
 ## 硬件清单 
 
 |名称|型号|备注|
 | ------- | ------- | ------- |
-|芯片|ATmega328P||
+|芯片|ATmega328P|[Arduino Nano](http://www.taichi-maker.com/homepage/reference-index/arduino-hardware-refrence/arduino-nano/)|
 |驱动|L298N||
 |稳压|LM2596|DC-DC|
 |电池|9.6V 8000MA|大田宫端头|
