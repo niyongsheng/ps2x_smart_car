@@ -2,8 +2,8 @@
 
 /** ATMEGA328p */
 #define PS2_DAT 12
-#define PS2_CMD 11
-#define PS2_SEL 10
+#define PS2_CMD 8
+#define PS2_SEL 7
 #define PS2_CLK 13
 
 int pwm1 = 6;
@@ -31,7 +31,7 @@ byte type = 0;
 byte vibrate = 0;
 
 // 全局变量用于控制电机的PWM调速占空比
-int motorSpeed = 130;
+int motorSpeed = 135;
 
 // Reset func
 void (*resetFunc)(void) = 0;
@@ -191,51 +191,40 @@ void LEFT() {
   analogWrite(pwm4, motorSpeed);
 }
 
-/** 平移方法 */
-void Translation(uint8_t io_values, uint8_t speed) {
-  digitalWrite(io_0, (io_values >> 7) & 0x01);
-  digitalWrite(io_1, (io_values >> 6) & 0x01);
-  digitalWrite(io_2, (io_values >> 5) & 0x01);
-  digitalWrite(io_3, (io_values >> 4) & 0x01);
-  digitalWrite(io_4, (io_values >> 3) & 0x01);
-  digitalWrite(io_5, (io_values >> 2) & 0x01);
-  digitalWrite(io_6, (io_values >> 1) & 0x01);
-  digitalWrite(io_7, io_values & 0x01);
-
-  analogWrite(pwm1, speed);
-  analogWrite(pwm2, speed);
-  analogWrite(pwm3, speed);
-  analogWrite(pwm4, speed);
-}
-
-// Mecanum-右平移
+// 麦克纳姆轮-右平移
 void Translation_Right() {
-  Translation(0b00110011, motorSpeed);
+  digitalWrite(io_0, LOW);
+  digitalWrite(io_1, HIGH);
+  digitalWrite(io_2, HIGH);
+  digitalWrite(io_3, LOW);
+
+  digitalWrite(io_4, LOW);
+  digitalWrite(io_5, HIGH);
+  digitalWrite(io_6, HIGH);
+  digitalWrite(io_7, LOW);
+
+  analogWrite(pwm1, motorSpeed);
+  analogWrite(pwm2, motorSpeed);
+  analogWrite(pwm3, motorSpeed);
+  analogWrite(pwm4, motorSpeed);
 }
 
-// Mecanum-左平移
+// 麦克纳姆轮-左平移
 void Translation_Left() {
-  Translation(0b11001100, motorSpeed);
-}
+  digitalWrite(io_0, HIGH);
+  digitalWrite(io_1, LOW);
+  digitalWrite(io_2, LOW);
+  digitalWrite(io_3, HIGH);
 
-// Mecanum-右上平移
-void Translation_Right_Up() {
-  Translation(0b10000001, motorSpeed);
-}
+  digitalWrite(io_4, HIGH);
+  digitalWrite(io_5, LOW);
+  digitalWrite(io_6, LOW);
+  digitalWrite(io_7, HIGH);
 
-// Mecanum-右下平移
-void Translation_Right_Down() {
-  Translation(0b01111110, motorSpeed);
-}
-
-// Mecanum-左上平移
-void Translation_Left_Up() {
-  Translation(0b10000001, motorSpeed);
-}
-
-// Mecanum-左下平移
-void Translation_Left_Down() {
-  Translation(0b01111110, motorSpeed);
+  analogWrite(pwm1, motorSpeed);
+  analogWrite(pwm2, motorSpeed);
+  analogWrite(pwm3, motorSpeed);
+  analogWrite(pwm4, motorSpeed);
 }
 
 void loop() {
@@ -275,6 +264,7 @@ void loop() {
       Serial.print("Wammy Bar Position:");
       Serial.println(ps2x.Analog(WHAMMY_BAR), DEC);
     }
+
   } else {                              //DualShock Controller
     ps2x.read_gamepad(false, vibrate);  //read controller and set large motor to spin at 'vibrate' speed
 
@@ -322,9 +312,9 @@ void loop() {
 
       if (ps2x.Button(PSB_TRIANGLE)) {
         Serial.println("Triangle pressed");
-        
+
         // 加速
-        motorSpeed += 1;
+        motorSpeed += 20;
         if (motorSpeed > 255)
           motorSpeed = 255;
         Serial.print("Current PWM Speed: ");
@@ -336,14 +326,14 @@ void loop() {
       Serial.println("X just changed");
 
       // 减速
-      motorSpeed -= 1;
-      if (motorSpeed <= 125)
-        motorSpeed = 125;
+      motorSpeed -= 10;
+      if (motorSpeed <= 130)
+        motorSpeed = 130;
       Serial.print("Current PWM Speed: ");
       Serial.println(motorSpeed);
 
     }  //will be TRUE if button was JUST pressed OR released
-    
+
     if (ps2x.ButtonPressed(PSB_CIRCLE)) {
       Serial.println("Circle just pressed");
 
@@ -351,7 +341,7 @@ void loop() {
 
     if (ps2x.ButtonReleased(PSB_SQUARE)) {
       Serial.println("Square just released");
-      
+
     }  //will be TRUE if button was JUST released
 
 
@@ -364,7 +354,6 @@ void loop() {
 
       // 左移
       Translation_Left();
-
     } else if (ps2x.Button(PSB_R1)) {
       Serial.print("PSB_R1 Stick Values:");
       Serial.print(ps2x.Analog(PSS_RY), DEC);
@@ -377,4 +366,5 @@ void loop() {
     }
   }
   delay(50);
+  STOP();
 }
