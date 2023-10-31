@@ -6,10 +6,10 @@
 #define PS2_SEL 10
 #define PS2_CLK 13
 
-int pwm1 = 6;  //PIN 5(PWM)
-int pwm2 = 7;  //PIN 6(PWM)
-int pwm3 = 8;  //PIN 9(PWM)
-int pwm4 = 9;  //PIN 3(PWM)
+int pwm1 = 6;
+int pwm2 = 10;
+int pwm3 = 11;
+int pwm4 = 9;
 
 int io_0 = A0;
 int io_1 = A1;

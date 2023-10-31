@@ -16,26 +16,26 @@
 
 |名称|型号|备注|
 | ------- | ------- | ------- |
-|芯片|ATmega328P|[Arduino Nano](http://www.taichi-maker.com/homepage/reference-index/arduino-hardware-refrence/arduino-nano/)|
+|芯片|ATmega328P|[Document](https://www.microchip.com/en-us/product/atmega328p#document-table)|
 |驱动|L298N|[Schemetics](./PS2X_smartCar/L298DriveModuleSchematicDiagram.pdf)|
 |稳压|LM2596|DC-DC|
 |电池|9.6V 8000MA|大田宫端头|
-|电机|TT Motor|测速编码|
+|电机|TT Motor|测速|
 |车架|Acrylic||
 |手柄|ps2||
 
 ## 接收器端口
-|接口名称|接线端口|芯片IO|
+|接口|端口|IO|
 | ------- | ------- | ------- |
-|Data|①|12|
-|Command|②|11|
+|Data|①|D12|
+|Command|②|D8|
 |Ground|④|GND|
 |Power|⑤|3v3|
-|Attention|⑥|10|
-|Clock|⑦|13|
+|Attention|⑥|D7|
+|Clock|⑦|D13|
 
 <img src="./acceptor.png" style="height: 200px; border-radius:15px">
-
+<img src="./Arduino-Nano-Pinout.png" style="border-radius:15px">
 
 ## 实物展示
 To view the video, you can view the demo [here](https://www.bilibili.com/video/BV1ty4y1A7vB)
