@@ -25,7 +25,7 @@
 |手柄|ps2||
 
 ## 接收器端口
-|接口|端口|芯片|
+|接口名称|接线端口|芯片IO|
 | ------- | ------- | ------- |
 |Data|①|12|
 |Command|②|11|
@@ -34,7 +34,7 @@
 |Attention|⑥|10|
 |Clock|⑦|13|
 
-<img src="./acceptor.png">
+<img src="./acceptor.png" style="height: 200px; border-radius:15px">
 
 
 ## 实物展示
