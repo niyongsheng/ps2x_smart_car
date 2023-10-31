@@ -31,7 +31,7 @@ byte type = 0;
 byte vibrate = 0;
 
 // 全局变量用于控制电机的PWM调速占空比
-int motorSpeed = 150;
+int motorSpeed = 130;
 
 // Reset func
 void (*resetFunc)(void) = 0;
@@ -101,6 +101,7 @@ void setup() {
   pinMode(pwm4, OUTPUT);
 }
 
+// 停机
 void STOP() {
   pinMode(io_0, LOW);
   pinMode(io_1, LOW);
@@ -112,10 +113,10 @@ void STOP() {
   pinMode(io_6, LOW);
   pinMode(io_7, LOW);
 
-  pinMode(pwm1, LOW);
-  pinMode(pwm2, LOW);
-  pinMode(pwm3, LOW);
-  pinMode(pwm4, LOW);
+  pinMode(pwm1, 0);
+  pinMode(pwm2, 0);
+  pinMode(pwm3, 0);
+  pinMode(pwm4, 0);
 }
 
 // PWM调速前进
@@ -154,6 +155,7 @@ void BACK() {
   analogWrite(pwm4, motorSpeed);
 }
 
+// 右转
 void RIGHT() {
   digitalWrite(io_0, HIGH);
   digitalWrite(io_1, LOW);
@@ -171,6 +173,7 @@ void RIGHT() {
   analogWrite(pwm4, motorSpeed);
 }
 
+// 左转
 void LEFT() {
   digitalWrite(io_0, LOW);
   digitalWrite(io_1, HIGH);
@@ -186,6 +189,53 @@ void LEFT() {
   analogWrite(pwm2, motorSpeed);
   analogWrite(pwm3, motorSpeed);
   analogWrite(pwm4, motorSpeed);
+}
+
+/** 平移方法 */
+void Translation(uint8_t io_values, uint8_t speed) {
+  digitalWrite(io_0, (io_values >> 7) & 0x01);
+  digitalWrite(io_1, (io_values >> 6) & 0x01);
+  digitalWrite(io_2, (io_values >> 5) & 0x01);
+  digitalWrite(io_3, (io_values >> 4) & 0x01);
+  digitalWrite(io_4, (io_values >> 3) & 0x01);
+  digitalWrite(io_5, (io_values >> 2) & 0x01);
+  digitalWrite(io_6, (io_values >> 1) & 0x01);
+  digitalWrite(io_7, io_values & 0x01);
+
+  analogWrite(pwm1, speed);
+  analogWrite(pwm2, speed);
+  analogWrite(pwm3, speed);
+  analogWrite(pwm4, speed);
+}
+
+// Mecanum-右平移
+void Translation_Right() {
+  Translation(0b00110011, motorSpeed);
+}
+
+// Mecanum-左平移
+void Translation_Left() {
+  Translation(0b11001100, motorSpeed);
+}
+
+// Mecanum-右上平移
+void Translation_Right_Up() {
+  Translation(0b10000001, motorSpeed);
+}
+
+// Mecanum-右下平移
+void Translation_Right_Down() {
+  Translation(0b01111110, motorSpeed);
+}
+
+// Mecanum-左上平移
+void Translation_Left_Up() {
+  Translation(0b10000001, motorSpeed);
+}
+
+// Mecanum-左下平移
+void Translation_Left_Down() {
+  Translation(0b01111110, motorSpeed);
 }
 
 void loop() {
@@ -260,49 +310,70 @@ void loop() {
         Serial.println("L3 pressed");
       if (ps2x.Button(PSB_R3))
         Serial.println("R3 pressed");
-      if (ps2x.Button(PSB_L2))
+
+      if (ps2x.Button(PSB_L2)) {
+        Translation_Left();
         Serial.println("L2 pressed");
-      if (ps2x.Button(PSB_R2))
+      }
+
+      if (ps2x.Button(PSB_R2)) {
         Serial.println("R2 pressed");
+      }
+
       if (ps2x.Button(PSB_TRIANGLE)) {
         Serial.println("Triangle pressed");
-
-        motorSpeed += 25;
+        
+        // 加速
+        motorSpeed += 1;
         if (motorSpeed > 255)
           motorSpeed = 255;
-
         Serial.print("Current PWM Speed: ");
         Serial.println(motorSpeed);
       }
-
-      STOP();
     }
 
-    if (ps2x.ButtonPressed(PSB_CIRCLE))  //will be TRUE if button was JUST pressed
-      Serial.println("Circle just pressed");
     if (ps2x.NewButtonState(PSB_CROSS)) {
       Serial.println("X just changed");
 
-      motorSpeed -= 25;
+      // 减速
+      motorSpeed -= 1;
       if (motorSpeed <= 125)
         motorSpeed = 125;
-
       Serial.print("Current PWM Speed: ");
       Serial.println(motorSpeed);
+
     }  //will be TRUE if button was JUST pressed OR released
+    
+    if (ps2x.ButtonPressed(PSB_CIRCLE)) {
+      Serial.println("Circle just pressed");
 
-    if (ps2x.ButtonReleased(PSB_SQUARE))  //will be TRUE if button was JUST released
+    }  //will be TRUE if button was JUST pressed
+
+    if (ps2x.ButtonReleased(PSB_SQUARE)) {
       Serial.println("Square just released");
+      
+    }  //will be TRUE if button was JUST released
 
-    if (ps2x.Button(PSB_L1) || ps2x.Button(PSB_R1)) {  //print stick values if either is TRUE
-      Serial.print("Stick Values:");
+
+    if (ps2x.Button(PSB_L1)) {  //print stick values if either is TRUE
+      Serial.print("PSB_L1 Stick Values:");
       Serial.print(ps2x.Analog(PSS_LY), DEC);  //Left stick, Y axis. Other options: LX, RY, RX
       Serial.print(",");
       Serial.print(ps2x.Analog(PSS_LX), DEC);
-      Serial.print(",");
+      Serial.print("");
+
+      // 左移
+      Translation_Left();
+
+    } else if (ps2x.Button(PSB_R1)) {
+      Serial.print("PSB_R1 Stick Values:");
       Serial.print(ps2x.Analog(PSS_RY), DEC);
       Serial.print(",");
       Serial.println(ps2x.Analog(PSS_RX), DEC);
+      Serial.print("");
+
+      // 右移
+      Translation_Right();
     }
   }
   delay(50);

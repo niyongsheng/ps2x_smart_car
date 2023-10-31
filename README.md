@@ -10,7 +10,7 @@
 根据手柄的摇杆或按钮状态来实现智能车的调速、前进、后退、转向、平移、斜行、旋转等操作。
 ## 轮型:
 - [x] [普通轮子](https://en.wikipedia.org/wiki/Wheel)
-- [ ] [麦克纳姆轮](https://en.wikipedia.org/wiki/Mecanum_wheel)
+- [x] [麦克纳姆轮](https://en.wikipedia.org/wiki/Mecanum_wheel)
 
 ## 硬件清单 
 
@@ -20,12 +20,12 @@
 |驱动|L298N|[Schemetics](./PS2X_smartCar/L298DriveModuleSchematicDiagram.pdf)|
 |稳压|LM2596|DC-DC|
 |电池|9.6V 8000MA|大田宫端头|
-|电机|TT Motor||
+|电机|TT Motor|测速编码|
 |车架|Acrylic||
 |手柄|ps2||
 
 ## 接收器端口
-|名称|端口|芯片|
+|接口|端口|芯片|
 | ------- | ------- | ------- |
 |Data|①|12|
 |Command|②|11|
@@ -38,8 +38,8 @@
 
 
 ## 实物展示
-To view the video, you can view the demo [here]()
-
+To view the video, you can view the demo [here](https://www.bilibili.com/video/BV1ty4y1A7vB)
+<img src="./IMG_2290.jpg">
 
 ## 联系方式
 * E-mail: niyongsheng@Outlook.com
