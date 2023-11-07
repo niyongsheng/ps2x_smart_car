@@ -70,19 +70,19 @@
 ## 接收器
 |接口|端口|IO|
 | ------- | ------- | ------- |
-|Data|①|D12|
-|Command|②|D8|
-|Ground|④|GND|
-|Power|⑤|3V3|
-|Attention|⑥|D7|
-|Clock|⑦|D13|
+|Data|橙|D12|
+|Command|黄|D8|
+|Ground|褐|GND|
+|Power|红|3V3|
+|Attention|绿|D7|
+|Clock|蓝|D13|
 
-<img src="./acceptor.png" style="height: 200px; border-radius:15px">
+<img src="./ps2_wireless_receiver.jpeg" style="height: 200px; border-radius:15px">
 <img src="./Arduino-Nano-Pinout.png" style="border-radius:15px">
 
 ## 实物展示
-To view the video, you can view the demo [here](https://www.bilibili.com/video/BV1ty4y1A7vB)
-<img src="./IMG_2290.jpg">
+To view video, you can check out the link [here](https://www.bilibili.com/video/BV1ty4y1A7vB)
+<img src="./ps2_controller&smart_car.jpg">
 
 ## 联系方式
 * E-mail: niyongsheng@Outlook.com
