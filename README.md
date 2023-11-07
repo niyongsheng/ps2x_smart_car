@@ -68,14 +68,14 @@
 
 
 ## 接收器
-|接口|端口|IO|
-| ------- | ------- | ------- |
-|Data|橙|D12|
-|Command|黄|D8|
-|Ground|褐|GND|
-|Power|红|3V3|
-|Attention|绿|D7|
-|Clock|蓝|D13|
+|接口|端口|线色|IO|
+| ---: | ---: | ---: | ---: |
+|Data|①|橙|D12|
+|Command|②|黄|D8|
+|Ground|④|褐|GND|
+|Power|⑤|红|3V3|
+|Attention|⑥|绿|D7|
+|Clock|⑦|蓝|D13|
 
 <img src="./ps2_wireless_receiver.jpeg" style="height: 200px; border-radius:15px">
 <img src="./Arduino-Nano-Pinout.png" style="border-radius:15px">
